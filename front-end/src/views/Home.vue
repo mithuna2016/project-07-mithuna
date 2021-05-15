@@ -55,13 +55,18 @@
                 </div>
                 <div class="form-group">
                   <div class="custom-file">
-                    <input
+<form action="/" method="post" enctype="multipart/form-data">
+ <input
                       type="file"
                       class="custom-file-input"
                       id="customFile"
                       accept="image/*"
                       @change.prevent="addImage"
+                      name="image"
                     />
+</form>
+
+                    
                     <label class="custom-file-label" for="customFile"
                       >Upload image</label
                     >
