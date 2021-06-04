@@ -1,18 +1,18 @@
 const post = require("../module/post");
 const pool = require("../database");
-
+var fs = require('fs');
 
 exports.addPost = (req, res, next) => {
-    console.log(req.body);
+   // req.body.post = JSON.parse(req.body.post);
+    const url = req.protocol + '://' + req.get('host');
     //get the data from frontend
     const userID = req.body.userID
     const message = req.body.message
-    const image = req.file.path
-
+    const image = url + '/images/' + req.file.filename
+//console.log(userID,message,image);
     post.createPost(userID, message, image)
         .then(
             () => {
-
                 res.status(201).json({
                     message: 'New post added to database successfully!'
                 });
@@ -26,10 +26,18 @@ exports.addPost = (req, res, next) => {
         );
 }
 exports.getPost = (req, res, next) => {
-    post.getAllPost(post)
+    pool.query('SELECT * FROM public."postDB"', (error, results) => {
+        if (error) {
+          throw error
+        }
+        res.status(200).json(results.rows)
+       
+      })
+   /* post.getAllPost()
         .then(
             (result) => {
-                res.status(200).json(result.rows);
+                console.log(result.rows);
+                res.status(200).json();
             }
         ).catch(
             (error) => {
@@ -37,5 +45,5 @@ exports.getPost = (req, res, next) => {
                     error: error
                 });
             }
-        );
+        );*/
 }

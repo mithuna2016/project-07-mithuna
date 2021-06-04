@@ -37,11 +37,9 @@ exports.signup = (req, res, next) => {
           'Message': "Already exists"
         })
       }
-      //email is not exists add to DB
+      //email is not exists create the new user and add to DB
       else {
-
         userFunc.createUser(firstName, lastName, userEmail, hashedPassword)
-
           .then(
             () => {
               console.log(firstName, lastName, userEmail, hashedPassword);
@@ -59,9 +57,6 @@ exports.signup = (req, res, next) => {
       }
 
     })
-
-
-
 };
 
 exports.login = (req, res, next) => {

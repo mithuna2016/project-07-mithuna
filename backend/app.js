@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var multer  = require('multer')
+
 
 const userRoutes = require('./router/user');
 const postRoutes = require('./router/post');
 const { response } = require("express");
 const path = require('path');
-const pool = require("./database");
+
 const app = express();
 
 
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     next();
   });
 
-
+  app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json()); 
   

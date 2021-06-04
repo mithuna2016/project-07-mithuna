@@ -61,7 +61,7 @@ signupSubmit:function(){
   var signupDetails={
     firstName:this.firstName,
     lastName:this.lastName,
-    userName:this.userName,
+    email:this.userName,
     password:this.password
     
   }

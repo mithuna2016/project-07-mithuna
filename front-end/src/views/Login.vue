@@ -15,7 +15,7 @@
             </div>
             <input
               type="text"
-              v-model="userName"
+              v-model="userEmail"
               class="form-control"
               placeholder="username"
             />
@@ -58,10 +58,37 @@
 </template>
 
 <script>
+import router from "../router" 
+
+import axios from "axios"
 export default { 
   name: "Login",
   methods: {
-    loginSubmit:function() {
+    login : (e)=>{
+       e.preventDefault() 
+       let login=() =>{
+         let loginData ={
+           userEamil:this.userEamil,
+           password:this.password
+         }
+         axios.post("/signup",loginData)
+         .then((Response) =>{
+           console.log("LOGGED IN");
+           router.push("/")
+         })
+         .catch((errors) => {
+                            console.log("Cannot login")
+                        })
+
+       }
+        login()
+    }
+    
+    
+  } 
+};
+</script>
+loginSubmit:function() {
       var loginData={
  userName : this.userName,
  password: this.password
@@ -71,7 +98,3 @@ export default {
       console.log(loginData);
     }
     
-    
-  } 
-};
-</script>
