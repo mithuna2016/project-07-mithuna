@@ -11,6 +11,13 @@
             </ul>
           </div>
           <div class="card-body bg-white">
+            <!--- \\\\\\\form start here-->
+             <form 
+              id="sbmmit"
+              @submit="sbmmitPost"
+              method="post"
+             >
+           
             <div class="tab-content" id="myTabContent">
               <div
                 class="tab-pane fade show active"
@@ -18,7 +25,9 @@
                 role="tabpanel"
                 aria-labelledby="posts-tab"
               >
+              
                 <div class="form-group">
+                 <!--- \\\\\\\post content here-->
                   <label class="sr-only" for="message">post</label>
                   <input
                     class="form-control"
@@ -27,11 +36,12 @@
                     type="text"
                     v-model="message"
                   />
+                   
                 </div>
                 <div class="form-group">
                   <div class="custom-file">
-<form action="/" method="post" enctype="multipart/form-data">
- <input
+          <!--- \\\\\\\upload file-->
+                <input
                       type="file"
                       class="custom-file-input"
                       id="customFile"
@@ -39,22 +49,22 @@
                       @change.prevent="addImage"
                       name="image"
                     />
-</form>
 
                     
-                    <label class="custom-file-label" for="customFile"
-                      >Upload image</label
+                    <label class="custom-file-label" for="customFile">
+                      Upload image</label
                     >
                   </div>
                 </div>
               </div>
             </div>
+            <!--- \\\\\\\submit button-->
             <div class="btn-toolbar justify-content-between">
               <div class="btn-group">
                 <button
+                value="submit"
                   type="submit"
-                  class="btn btn-primary"
-                  @click.prevent="sbmmitPost"
+                  class="btn btn-primary"           
                 >
                   share
                 </button>
@@ -70,6 +80,7 @@
                 >
                   <i class="fa fa-globe"></i>
                 </button>
+                
                 <div
                   class="dropdown-menu dropdown-menu-right"
                   aria-labelledby="btnGroupDrop1"
@@ -86,6 +97,7 @@
                 </div>
               </div>
             </div>
+           </form>
           </div>
         </div>
       
@@ -94,67 +106,56 @@
 
 <script>
 export default {
-    name:"createpost",
-data() {
+  name: "createpost",
+  data() {
     return {
+      message: "",
       image: null
     };
   },
 
   methods: {
-    sbmmitPost() {
-      const post ={
-message:this.message,
-      image:this.$refs.fileInput.click()
+    //submit function
+    sbmmitPost:function(e) {
+      e.preventDefault();
+    console.log(this.userID); 
+      const apiUrl ='http://localhost:3000/api/post'
+        const post = {
+          message: this.message,
+          image:this.image
       }
-     
-      getdata(post)
-    },
-    addImage(event) {
+      console.log(post);
+      //sent api request
+        fetch(apiUrl, {
+            method: 'POST', 
+            headers: {
+                    'Content-Type': 'application/json',
+                      },
+             body: JSON.stringify(post),
+          })
+          .then(response => response.json())
+          .then(post => {
+            alert(post.message)
+            })
+          .catch((error) => {
+          console.error('Error:', error);
+          });
+      },
+    addImage:function(event) {
+      // Reference to the DOM input element
       const files = event.target.files;
-      //let filename = files[0].name
+      // create a new FileReader to read this image 
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
         this.imageUrl = fileReader.result;
+       
       });
+      // read file as a data url
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
-    },
-     makeRequest(data) {
-  
-  return new Promise((resolve, reject) => {
-    let request = new XMLHttpRequest();
-    const url ="http://localhost:8080/api/post";
-    request.open('POST', url );
-    request.onreadystatechange = () => {
-      if (request.readyState === 4) {
-        if (request.status === 201) {
-          resolve(JSON.parse(request.response));
-        
-        } else {
-          reject(JSON.parse(request.response));
-        }
-      }
-    };
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify(data)); 
+    }
     
-  });
- 
-},
-  async getdata(data){
- 
-  try{
-    const requestPromise = makeRequest(data);
-    
-    const response = await requestPromise;
-    console.log(response);
-   
-}catch(errorResponse){
-  }
-}
     
   }
-
-}
+};
 </script>

@@ -10,38 +10,45 @@
             </div>
           </div>
           <div class="card-body">
-            <form>
-
-              <div class="input-group form-group">
-                 
-                <input type="text" class="form-control" placeholder="firstName" v-model="firstName">
-                
+            <form
+            id="sbmmitSignup"
+              @submit="signupSubmit"
+            
+             
+            >
+              <div class="input-group form-group"> 
+                <input type="text" class="form-control"
+                 placeholder="firstName" 
+                 v-model="firstName">
               </div>
 
               <div class="input-group form-group">
-                
-                
-                <input type="text" class="form-control" placeholder="lastName" v-model="lastName">
-                
+                <input type="text" class="form-control" 
+                placeholder="lastName"
+                 v-model="lastName">
               </div>
-
               <div class="input-group form-group">
-
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
-                <input type="text" class="form-control" placeholder="username" v-model="userName">
+                <input type="text" class="form-control" 
+                placeholder="username"
+                 v-model="userName">
                 
               </div>
               <div class="input-group form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
-                <input type="password" class="form-control" placeholder="password" v-model="password">
+                <input type="password" class="form-control"
+                 placeholder="password"
+                  v-model="password">
               </div>
               
               <div class="form-group">
-                <input type="submit"   v-on:click="signupSubmit"  class="btn float-right login_btn">
+                <input type="submit"    
+                value="submit"
+                class="btn float-right login_btn">
                
               </div>
             </form>
@@ -56,18 +63,49 @@
 <script>
 export default {
     name:"Signup",
+    data() {
+    return {
+     firstName : "",
+      lastName: "",
+       userEmail:"",
+       password:""
+    };
+  },
     methods:{
 signupSubmit:function(){
-  var signupDetails={
+  
+   const apiUrl ='http://localhost:3000/api/auth/signup'
+  const signupDetails={
     firstName:this.firstName,
     lastName:this.lastName,
-    email:this.userName,
+    userEmail:this.userName,
     password:this.password
-    
   }
-   console.log(signupDetails);
-},
+  console.log(signupDetails);
+   fetch(apiUrl, {
+     
+            method: 'POST', 
+            headers: {
+                    'Content-Type': 'application/json',
+                      },
+             body: JSON.stringify(signupDetails),
+          })
+          .then(response => response.json())
+          
+          .then(signupDetails => {
+          
+            console.log(signupDetails.message)
+            this.$router.push('/login')
+            })
+          .catch((error) => {
+            console.log('Error:', error);
+          })
       
-    }
+    
+      
+      
+    
+}
+}
 }
 </script>

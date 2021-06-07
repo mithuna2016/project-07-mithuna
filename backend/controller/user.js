@@ -19,6 +19,7 @@ exports.signup = (req, res, next) => {
     else
     {
       hashedPassword = result;
+      
     }
   });
   //check the email
@@ -62,7 +63,7 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   const userEmail = req.body.userEmail;
   const password = req.body.password;
-console.log(password);
+
   pool.query(`SELECT * FROM public."userDB"
     WHERE "userEmail" = '${userEmail}'`
     ,
@@ -70,11 +71,10 @@ console.log(password);
       if (err) {
         console.log(err);
       }
-      console.log(results.rows);
+      
       if (results.rowCount > 0) {
         bcrypt.compare(password, results.rows[0].userPassword).then(
           (valid) => {
-            console.log(valid);
             if (!valid) {
               return res.status(401).json({
                 error: new Error('Incorrect password!')
@@ -86,7 +86,7 @@ console.log(password);
               'Lorem_ipsum_dolor_sit_amet',
               { expiresIn: '24h' }
             );
-            console.log("hiiii");
+            
             res.status(200).json({
               userId: results.rows[0].userId,
               token: token
@@ -103,46 +103,7 @@ console.log(password);
       }
     }
   )
-  //     .then(
-  //       (user) => {
-
-  //         if (!user) {
-  //           return res.status(401).json({
-  //             error: new Error('User not found!')
-  //           });
-  //         }
-  //         bcrypt.compare(password, user.password).then(
-  //           (valid) => {
-  //             if (!valid) {
-  //               return res.status(401).json({
-  //                 error: new Error('Incorrect password!')
-  //               });
-  //             }
-  //             const token = jwt.sign(
-  //               { userId: user._id },
-  //               'Lorem_ipsum_dolor_sit_amet',
-  //               { expiresIn: '24h' }
-  //             );
-  //             res.status(200).json({
-  //               userId: user._id,
-  //               token: token
-  //             });
-  //           }
-  //         ).catch(
-  //           (error) => {
-  //             res.status(500).json({
-  //               error: error
-  //             });
-  //           }
-  //         );
-  //       }
-  //     ).catch(
-  //       (error) => {
-  //         res.status(500).json({
-  //           error: error
-  //         });
-  //       }
-  //     );
+  
 }
 
 

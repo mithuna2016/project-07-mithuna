@@ -14,7 +14,7 @@
               <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
             <input
-              type="text"
+              type="email"
               v-model="userEmail"
               class="form-control"
               placeholder="username"
@@ -35,12 +35,14 @@
             <input type="checkbox" />Remember Me
           </div>
           <div class="form-group">
-            <input
+            <button
+              value="submit"
               type="submit"
-              value="Login"
+              v-on:click="login"
               class="btn float-right login_btn"
-              v-on:click="loginSubmit()"
-            />
+            >
+              login
+            </button>
           </div>
         </form>
       </div>
@@ -58,43 +60,45 @@
 </template>
 
 <script>
-import router from "../router" 
-
-import axios from "axios"
-export default { 
+export default {
   name: "Login",
+  data() {
+    return {
+      userEmail: "",
+      password: ""
+    };
+  },
   methods: {
-    login : (e)=>{
-       e.preventDefault() 
-       let login=() =>{
-         let loginData ={
-           userEamil:this.userEamil,
-           password:this.password
-         }
-         axios.post("/signup",loginData)
-         .then((Response) =>{
-           console.log("LOGGED IN");
-           router.push("/")
-         })
-         .catch((errors) => {
-                            console.log("Cannot login")
-                        })
+    login: function(e) {
+      e.preventDefault();
+       const Url ='http://localhost:3000/api/auth/login'
 
-       }
-        login()
+      const loginData = {
+        userEamil: this.userEmail,
+        password: this.password
+      };
+
+      console.log(loginData);
+      
+      //sent api request
+      fetch(Url, {
+            method: 'POST', 
+            headers: {
+                    'Content-Type': 'application/json',
+                      },
+             body: JSON.stringify(loginData),
+          })
+          .then(response => response.json())
+          .then(loginData => {
+           
+          console.log(loginData);
+         this.$router.push('/')
+            })
+          .catch((error) => {
+            console.log('Error:', error);
+          
+          })
     }
-    
-    
-  } 
+  }
 };
 </script>
-loginSubmit:function() {
-      var loginData={
- userName : this.userName,
- password: this.password
-      }
-      
-    
-      console.log(loginData);
-    }
-    

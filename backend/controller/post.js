@@ -8,7 +8,7 @@ exports.addPost = (req, res, next) => {
     //get the data from frontend
     const userID = req.body.userID
     const message = req.body.message
-    const image = url + '/images/' + req.file.filename
+    const image = url + '/images/' + req.file
 //console.log(userID,message,image);
     post.createPost(userID, message, image)
         .then(
