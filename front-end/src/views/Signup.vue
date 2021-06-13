@@ -13,19 +13,29 @@
             <form
             id="sbmmitSignup"
               @submit="signupSubmit"
-            
-             
+              class="was-validated"
             >
+
               <div class="input-group form-group"> 
                 <input type="text" class="form-control"
                  placeholder="firstName" 
-                 v-model="firstName">
+                 v-model="firstName"
+                 required
+                 >
+                 <div class="invalid-feedback">
+              first name is required
+            </div>
               </div>
 
               <div class="input-group form-group">
                 <input type="text" class="form-control" 
                 placeholder="lastName"
-                 v-model="lastName">
+                 v-model="lastName"
+                 required
+                 >
+                  <div class="invalid-feedback">
+              last name is required.
+            </div>
               </div>
               <div class="input-group form-group">
                 <div class="input-group-prepend">
@@ -33,8 +43,12 @@
                 </div>
                 <input type="text" class="form-control" 
                 placeholder="username"
-                 v-model="userName">
-                
+                 v-model="userName"
+                 required
+                 >
+                 <div class="invalid-feedback">
+              email is required.
+            </div>
               </div>
               <div class="input-group form-group">
                 <div class="input-group-prepend">
@@ -42,7 +56,12 @@
                 </div>
                 <input type="password" class="form-control"
                  placeholder="password"
-                  v-model="password">
+                  v-model="password"
+                  required
+                  >
+                  <div class="invalid-feedback">
+              password is required.
+            </div> 
               </div>
               
               <div class="form-group">
@@ -51,6 +70,7 @@
                 class="btn float-right login_btn">
                
               </div>
+             
             </form>
           </div>
           
@@ -65,6 +85,7 @@ export default {
     name:"Signup",
     data() {
     return {
+     
      firstName : "",
       lastName: "",
        userEmail:"",
@@ -73,7 +94,7 @@ export default {
   },
     methods:{
 signupSubmit:function(){
-  
+   this.errors = [];
    const apiUrl ='http://localhost:3000/api/auth/signup'
   const signupDetails={
     firstName:this.firstName,
@@ -81,6 +102,7 @@ signupSubmit:function(){
     userEmail:this.userName,
     password:this.password
   }
+  
   console.log(signupDetails);
    fetch(apiUrl, {
      
@@ -94,7 +116,7 @@ signupSubmit:function(){
           
           .then(signupDetails => {
           
-            console.log(signupDetails.message)
+            alert(signupDetails.message)
             this.$router.push('/login')
             })
           .catch((error) => {

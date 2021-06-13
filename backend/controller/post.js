@@ -3,12 +3,11 @@ const pool = require("../database");
 var fs = require('fs');
 
 exports.addPost = (req, res, next) => {
-   // req.body.post = JSON.parse(req.body.post);
-    const url = req.protocol + '://' + req.get('host');
+    console.log(req.file);
     //get the data from frontend
     const userID = req.body.userID
     const message = req.body.message
-    const image = url + '/images/' + req.file
+    const image = req.file.path
 //console.log(userID,message,image);
     post.createPost(userID, message, image)
         .then(
@@ -26,7 +25,8 @@ exports.addPost = (req, res, next) => {
         );
 }
 exports.getPost = (req, res, next) => {
-    pool.query('SELECT * FROM public."postDB"', (error, results) => {
+    pool.query('SELECT * FROM public."postDB", public."userDB" where public."postDB".userID=public."userDB".userID'
+, (error, results) => {
         if (error) {
           throw error
         }

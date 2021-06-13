@@ -8,7 +8,10 @@
         </div>
       </div>
       <div class="card-body">
-        <form id="getLogin">
+        <form id="getLogin"
+        class="was-validated"
+        >
+          
           <div class="input-group form-group">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -18,7 +21,9 @@
               v-model="userEmail"
               class="form-control"
               placeholder="username"
+              required
             />
+             <div class="invalid-feedback">Please fill out this field.</div>
           </div>
           <div class="input-group form-group">
             <div class="input-group-prepend">
@@ -29,7 +34,9 @@
               v-model="password"
               class="form-control"
               placeholder="password"
+              required
             />
+            <div class="invalid-feedback">Please fill out this field.</div>
           </div>
           <div class="row align-items-center remember">
             <input type="checkbox" />Remember Me
@@ -43,9 +50,11 @@
             >
               login
             </button>
+            
           </div>
         </form>
       </div>
+      <div class="invalid-feedback" >{{errorMessage}}</div>
       <div class="card-footer">
         <div class="d-flex justify-content-center links color">
           Don't have an account
@@ -65,7 +74,8 @@ export default {
   data() {
     return {
       userEmail: "",
-      password: ""
+      password: "",
+      errorMessage:''
     };
   },
   methods: {
@@ -74,7 +84,7 @@ export default {
        const Url ='http://localhost:3000/api/auth/login'
 
       const loginData = {
-        userEamil: this.userEmail,
+        userEmail: this.userEmail,
         password: this.password
       };
 
@@ -90,12 +100,17 @@ export default {
           })
           .then(response => response.json())
           .then(loginData => {
+            console.log(loginData);
            
-          console.log(loginData);
+           
+          localStorage.setItem('loginData', JSON.stringify(loginData));
+
+
          this.$router.push('/')
             })
           .catch((error) => {
-            console.log('Error:', error);
+            console.log(error);
+            this.errorMessage = "Invalid Creditnials"
           
           })
     }
