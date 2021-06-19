@@ -7,7 +7,7 @@
         <div class="card bg-primary">
           <div class="card-body">
             <div class="h5" id="userName">@</div>
-            <div class="h7" id="fullName">name</div>
+            <div class="h7" id="fullName">{{ user.firstName }} {{ user.lastName }}</div>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="col-md-6 gedf-main">
-      <createpost/>
+     
         <getpost/>
 
         <!-- about company and sent feedback /////-->
@@ -34,7 +34,7 @@
       <div class="col-md-3">
         <div class="card gedf-card">
           <div class="card-body bg-white">
-            <img alt="company logo" src="@/assets/logo.png" />
+            <img alt="company logo" src="@/assets/logo.png" class="logoimg" />
 
             <p class="card-text">
               Our company, a multinatioal retail corporation, is expandind by
@@ -58,19 +58,19 @@
 
 <script>
 // @ is an alias to /src
-import createpost from '@/components/createpost.vue'
+
 import getpost from '@/components/getpost.vue'
 export default {
-  components:{
-createpost,
+  components:{  
 getpost
 
   },
   name: "Home",
   data() {
     return {
-      image: null
-    };
+      image: null,
+     user: JSON.parse(localStorage.getItem("loginData"))
+    }
   },
 
   methods: {

@@ -15,15 +15,17 @@ exports.createPost = function (userID,message,image){
     });
 }
 
-/*exports.getAllPost = function() {
-        pool.query(`SELECT * FROM public."postDB"`),
+exports.addRead = function (userID,postID){
+    return new Promise((resolve,reject)=>{
+        
+        pool.query(`INSERT INTO public."post-read"("userID","postID")
+        VALUES('${userID}','${postID}')`, 
         (error, results) => {
-           
             if (error) {
                 reject (error)
               }
               resolve(results)
-              console.log(results.rows);
-        }
+              console.log(results);
+        })
     });
-    }*/
+}

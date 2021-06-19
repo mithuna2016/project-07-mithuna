@@ -88,8 +88,6 @@ export default {
         password: this.password
       };
 
-      console.log(loginData);
-      
       //sent api request
       fetch(Url, {
             method: 'POST', 
@@ -100,12 +98,8 @@ export default {
           })
           .then(response => response.json())
           .then(loginData => {
-            console.log(loginData);
-           
            
           localStorage.setItem('loginData', JSON.stringify(loginData));
-
-
          this.$router.push('/')
             })
           .catch((error) => {

@@ -22,9 +22,7 @@
                  v-model="firstName"
                  required
                  >
-                 <div class="invalid-feedback">
-              first name is required
-            </div>
+                 
               </div>
 
               <div class="input-group form-group">
@@ -33,9 +31,7 @@
                  v-model="lastName"
                  required
                  >
-                  <div class="invalid-feedback">
-              last name is required.
-            </div>
+                  
               </div>
               <div class="input-group form-group">
                 <div class="input-group-prepend">
@@ -46,9 +42,7 @@
                  v-model="userName"
                  required
                  >
-                 <div class="invalid-feedback">
-              email is required.
-            </div>
+                 
               </div>
               <div class="input-group form-group">
                 <div class="input-group-prepend">
@@ -59,9 +53,7 @@
                   v-model="password"
                   required
                   >
-                  <div class="invalid-feedback">
-              password is required.
-            </div> 
+                 
               </div>
               
               <div class="form-group">

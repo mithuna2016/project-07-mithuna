@@ -124,6 +124,7 @@ export default {
       })
         .then(response => response.json())
         .then(result => {
+          alert(result.message)
           console.log("Success:", result);
         })
         .catch(error => {

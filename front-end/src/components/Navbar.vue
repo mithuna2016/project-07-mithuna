@@ -7,7 +7,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <img src="@/assets/logo.png" alt="logo">
+        <img src="@/assets/logo.png" alt="logo" class="logoimg">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item  ">
              <!---link to home page -->
@@ -18,7 +18,7 @@
             <a class="nav-link  text-warning " href="#">Manage Account</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  text-warning " href="#">Logout</a>
+            <router-link to="/login" class="nav-link  text-warning ">logout</router-link>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
