@@ -8,28 +8,42 @@
         </div>
       </div>
       <div class="card-body">
-        <form id="getLogin"
-        class="was-validated"
-        >
-          
+        <form id="getLogin" class="was-validated">
           <div class="input-group form-group">
+            <label
+              class=" control-label text-white  h5 font-weight-bold  "
+              style="width:6rem"
+              for="email"
+            >
+              Email</label
+            >
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
             <input
+              id="email"
               type="email"
               v-model="userEmail"
               class="form-control"
               placeholder="username"
               required
             />
-             <div class="invalid-feedback">Please fill out this field.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
           </div>
           <div class="input-group form-group">
+            <label
+              class=" control-label text-white  h5 font-weight-bold "
+              style="width:6rem"
+              for="password"
+            >
+              paaword</label
+            >
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-key"></i></span>
+              <span class="input-group-text"> <i class="fas fa-key"></i> </span>
             </div>
+
             <input
+              id="password"
               type="password"
               v-model="password"
               class="form-control"
@@ -39,10 +53,11 @@
             <div class="invalid-feedback">Please fill out this field.</div>
           </div>
           <div class="row align-items-center remember">
-            <input type="checkbox" />Remember Me
+            <label> <input type="checkbox" />Remember Me</label>
           </div>
           <div class="form-group">
             <button
+              id="loginSubmit"
               value="submit"
               type="submit"
               v-on:click="login"
@@ -50,11 +65,10 @@
             >
               login
             </button>
-            
           </div>
         </form>
       </div>
-      <div class="invalid-feedback" >{{errorMessage}}</div>
+      <div class="invalid-feedback">{{ errorMessage }}</div>
       <div class="card-footer">
         <div class="d-flex justify-content-center links color">
           Don't have an account
@@ -75,38 +89,40 @@ export default {
     return {
       userEmail: "",
       password: "",
-      errorMessage:''
+      
     };
   },
   methods: {
     login: function(e) {
       e.preventDefault();
-       const Url ='http://localhost:3000/api/auth/login'
+      const Url = "http://localhost:3000/api/auth/login";
 
       const loginData = {
         userEmail: this.userEmail,
         password: this.password
       };
-
       //sent api request
       fetch(Url, {
-            method: 'POST', 
-            headers: {
-                    'Content-Type': 'application/json',
-                      },
-             body: JSON.stringify(loginData),
-          })
-          .then(response => response.json())
-          .then(loginData => {
-           
-          localStorage.setItem('loginData', JSON.stringify(loginData));
-         this.$router.push('/')
-            })
-          .catch((error) => {
-            console.log(error);
-            this.errorMessage = "Invalid Creditnials"
-          
-          })
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginData)
+      })
+        .then(async response => {
+          const data = await response.json();
+          if (response.ok) {
+            console.log("hi");
+            localStorage.setItem("loginData", JSON.stringify(data));
+            this.$router.push("/");
+          }
+          else {
+            alert("invalid email or password")
+          }
+        })
+        .catch(async error => {
+          await console.error("Error:", error);
+        });
     }
   }
 };

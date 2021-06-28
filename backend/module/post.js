@@ -1,9 +1,10 @@
-const pool = require("../database");
+const con = require("../database");
 
 exports.createPost = function (userID,message,image){
     return new Promise((resolve,reject)=>{
         
-        pool.query(`INSERT INTO public."postDB"("userID","message", "image")
+        con.query(
+            `INSERT INTO postDB(userID,message, image)
         VALUES('${userID}','${message}', '${image}')`, 
         (error, results) => {
             if (error) {
@@ -17,9 +18,9 @@ exports.createPost = function (userID,message,image){
 
 exports.addRead = function (userID,postID){
     return new Promise((resolve,reject)=>{
-        
-        pool.query(`INSERT INTO public."post-read"("userID","postID")
-        VALUES('${userID}','${postID}')`, 
+        console.log(userID, postID);
+        con.query(
+            `INSERT INTO readPost (postID,userID) VALUES ('${postID}','${userID}')`, 
         (error, results) => {
             if (error) {
                 reject (error)

@@ -17,7 +17,9 @@
             >
 
               <div class="input-group form-group"> 
+                 <label class=" control-label text-white h5 font-weight-bold " style="width:95px" for="firstName">	firstName</label>
                 <input type="text" class="form-control"
+                id="firstName"
                  placeholder="firstName" 
                  v-model="firstName"
                  required
@@ -26,7 +28,9 @@
               </div>
 
               <div class="input-group form-group">
+                  <label class=" control-label text-white  h5 font-weight-bold " style="width:95px" for="lastName">lastName</label>
                 <input type="text" class="form-control" 
+                id="lastName"
                 placeholder="lastName"
                  v-model="lastName"
                  required
@@ -34,10 +38,13 @@
                   
               </div>
               <div class="input-group form-group">
+                   <label class=" control-label text-white  h5 font-weight-bold " style="width:100px" for="userName">	userName</label>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                 <span class="input-group-text"><i class="fas fa-user"></i> </span>
                 </div>
+                
                 <input type="text" class="form-control" 
+                id="userName"
                 placeholder="username"
                  v-model="userName"
                  required
@@ -45,27 +52,25 @@
                  
               </div>
               <div class="input-group form-group">
+                  <label class=" control-label    text-white h5 font-weight-bold " style="width:6rem" for="userPassword">	paaword</label>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                  <span class="input-group-text"><i class="fas fa-key"></i> </span>
                 </div>
+
                 <input type="password" class="form-control"
+                id="userPassword"
                  placeholder="password"
                   v-model="password"
                   required
                   >
-                 
               </div>
-              
               <div class="form-group">
                 <input type="submit"    
                 value="submit"
                 class="btn float-right login_btn">
-               
               </div>
-             
             </form>
           </div>
-          
         </div>
       </div>
     </div>
@@ -86,7 +91,7 @@ export default {
   },
     methods:{
 signupSubmit:function(){
-   this.errors = [];
+  
    const apiUrl ='http://localhost:3000/api/auth/signup'
   const signupDetails={
     firstName:this.firstName,
@@ -104,13 +109,16 @@ signupSubmit:function(){
                       },
              body: JSON.stringify(signupDetails),
           })
-          .then(response => response.json())
-          
-          .then(signupDetails => {
-          
-            alert(signupDetails.message)
-            this.$router.push('/login')
-            })
+           .then(async response => {
+          const data = await response.json();
+          if (response.ok) {
+            alert(data.message)
+            this.$router.push("/login");
+          }
+          else {
+            alert("invalid email or password")
+          }
+        })
           .catch((error) => {
             console.log('Error:', error);
           })

@@ -53,65 +53,45 @@
           <!--- \\\\\\\submit button-->
           <div class="btn-toolbar justify-content-between">
             <div class="btn-group">
-              <button value="submit" type="submit" class="btn btn-primary">
+              <button value="submit" type="submit" class=" btn btn-primary btn-lg font-weight-bold ">
                 share
               </button>
             </div>
-            <div class="btn-group">
-              <button
-                id="btnGroupDrop1"
-                type="button"
-                class="btn btn-link dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="fa fa-globe"></i>
-              </button>
-
-              <div
-                class="dropdown-menu dropdown-menu-right"
-                aria-labelledby="btnGroupDrop1"
-              >
-                <a class="dropdown-item" href="#"
-                  ><i class="fa fa-globe"></i> Public</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="fa fa-users"></i> Friends</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="fa fa-user"></i> Just me</a
-                >
-              </div>
-            </div>
+           
           </div>
         </form>
       </div>
     </div>
-    <div class="card-header bg-primary">
+   
+    <div class="card-header  bg-primary">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex justify-content-between align-items-center">
           <div class="ml-3 text-white">
-            <div class="h5 m-0">@</div>
+            <div class="h4 text-white m-0">@</div>
             <div class="h7 text-white"></div>
           </div>
         </div>
       </div>
     </div>
+     
     <div v-for="po in post" :key="po.id">
-      <img class="card-img-top postimg" src="url + po.image" />
-      <div class="card-body bg-white">
-        <div>
-          <img :src="url + po.image" alt="Not Found" class="card-img-top" />
+      <div class="card-body bg-white  ">
+        <div v-if="po.image!='undefined'">
+          <img  :src="url + po.image" alt="Not Found" class="card-img-top" />
         </div>
         <div class="text-muted h7 mb-2">
           {{ po.message }}
         </div>
+         <div class=" bg-white mb-2">
+        <button :disabled="po.isRead" @click="readPost(po.postID)" class="btn btn-primary">Read</button>
       </div>
-      <div class="card-footer bg-white">
-        <button :disabled="po.isRead" @click="readPost(po.postID)">Read</button>
+      <div class="card-footer bg-white "></div>
       </div>
+
+      
+     
     </div>
+   
   </div>
 </template>
       
@@ -120,7 +100,7 @@ export default {
   name: "getpost",
   data() {
     return {
-      url: "http://localhost:3000/",
+      url: "http://localhost:3000/images/",
       post: "",
       readPostData: "",
       user: JSON.parse(localStorage.getItem("loginData")),
@@ -138,6 +118,7 @@ export default {
   methods: {
     async getPo() {
       const headers = new Headers();
+      console.log(this.user);
       headers.append("token", this.user.token);
       headers.append("userID", this.user.userID);
       const Url = "http://localhost:3000/api/post";
@@ -147,8 +128,9 @@ export default {
         mode: "cors",
         cache: "default"
       })
-        .then(response => response.json())
-        .then(data => (this.post = data))
+        .then(async response => {
+          this.post = await response.json();
+        })
         .catch(error => {
           console.log("Error:", error);
         });
@@ -172,8 +154,11 @@ export default {
         mode: "cors",
         cache: "default"
       })
-        .then(response => response.json())
-        .then(data => (this.readPostData = data))
+        .then(async response => {
+          const data = await response.json();
+          this.readPostData = data;
+        })
+
         .catch(error => {
           console.log("Error:", error);
         });
@@ -194,11 +179,12 @@ export default {
         },
         body: JSON.stringify(readData)
       })
-        .then(response => response.json())
-        .then(readData => {
-          console.log("Success:", readData);
+        .then(async response => {
+          const data =  await response.json();
+          console.log(data);
           var foundIndex = this.post.findIndex(x => x.postID == postID);
           this.post[foundIndex].isRead = true;
+          console.log(this.post);
         })
         .catch(error => {
           console.error("Error:", error);
@@ -222,13 +208,13 @@ export default {
         headers,
         body: formData
       })
-        .then(response => response.json())
-        .then(result => {
+        .then(async response => {
+          const data =  await response.json();
           this.getReadPost();
           this.getPo();
-          alert(result.message);
-          console.log("Success:", result);
-        })
+          alert(data.message);
+          })
+
         .catch(error => {
           console.error("Error:", error);
         });

@@ -1,5 +1,5 @@
 const post = require("../module/post");
-const pool = require("../database");
+const con = require("../database");
 var fs = require('fs');
 
 exports.addPost = (req, res, next) => {
@@ -7,7 +7,11 @@ exports.addPost = (req, res, next) => {
   //get the data from frontend
   const userID = req.body.userID
   const message = req.body.message
-  const image = req.file.path
+  var s2 = undefined;
+  if(req.file && req.file.path) {
+     s2 = req.file.path.substring(7);
+  }
+ const image = s2
   //console.log(userID,message,image);
   post.createPost(userID, message, image)
     .then(
@@ -24,26 +28,23 @@ exports.addPost = (req, res, next) => {
       }
     );
 }
+//get data from db
 exports.getPost = (req, res, next) => {
-
-  pool.query('SELECT *FROM public."postDB" ',
+  con.query("SELECT * FROM postDB ",
     (error, results) => {
       if (error) {
         throw error
       }
-      res.status(200).json(results.rows)
-
+      res.status(200).json(results)
+      console.log('hi');
     })
 
 };
-
+// post-read 
 exports.readPost = (req, res, next) => {
   console.log(req.body.userID, req.body.postID);
   const userID = req.body.userID;
   const postID = req.body.postID;
-
-
-
   post.addRead(userID, postID)
     .then(
       () => {
@@ -62,13 +63,14 @@ exports.readPost = (req, res, next) => {
 }
 exports.getReadPost = (req, res, next) => {
   const userID = req.params.id
-  pool.query(`SELECT *FROM public."post-read" WHERE "userID" = $1`,
-  [userID],
+  con.query('SELECT * FROM readPost WHERE userID =' + userID,
+
     (error, results) => {
       if (error) {
-        throw error
+        res.status(500).json(error.message)
       }
-      res.status(200).json(results.rows)
+
+      res.status(200).json(results)
 
     })
 

@@ -43,9 +43,10 @@ a{
     }
     
     .logoimg{
+       background-color: violet;
        border-radius: 50%;
-       border: #FFC312 2px solid;
-       height: 40px;
+       border:white 3px solid;
+       height: 70px;
    }
   
     /*logo size  */
@@ -108,13 +109,7 @@ a{
     margin-left: 4px;
     }
     .background{
-        background-image: url('./images/login.jpg') ;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: auto;
-        font-family: 'Numans', sans-serif;
-        position: relative;
-        font-weight: 900;
+       background-color:purple;
       
     }
 

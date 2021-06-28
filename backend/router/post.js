@@ -7,7 +7,7 @@ const multermid = require('../middleware/multer-config');
 
 const postCtrl = require('../controller/post');
 
-router.get('/',postCtrl.getPost);
+router.get('/',auth,postCtrl.getPost);
 router.post('/',auth,multermid, postCtrl.addPost);
 
 router.post('/read', postCtrl.readPost);

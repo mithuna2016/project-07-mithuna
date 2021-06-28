@@ -6,8 +6,8 @@
       <div class="col-md-3">
         <div class="card bg-primary">
           <div class="card-body">
-            <div class="h5" id="userName">@</div>
-            <div class="h7" id="fullName">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="h4 text-white" id="userName">@</div>
+            <div class="h4 text-white " id="fullName">{{ user.firstName }} {{ user.lastName }}</div>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
@@ -26,8 +26,7 @@
         </div>
       </div>
       <div class="col-md-6 gedf-main">
-     
-        <getpost/>
+        <getpost />
 
         <!-- about company and sent feedback /////-->
       </div>
@@ -48,7 +47,7 @@
               The people who make Groupomain want your feedback. Email us what
               works well and what we could do better.
             </p>
-            <email class="text-primary">Groupomain@hotmail.uk.co</email>
+            <email class=" h6 text-dark">Groupomain@hotmail.uk.co</email>
           </div>
         </div>
       </div>
@@ -59,18 +58,17 @@
 <script>
 // @ is an alias to /src
 
-import getpost from '@/components/getpost.vue'
+import getpost from "@/components/getpost.vue";
 export default {
-  components:{  
-getpost
-
+  components: {
+    getpost
   },
   name: "Home",
   data() {
     return {
       image: null,
-     user: JSON.parse(localStorage.getItem("loginData"))
-    }
+      user: JSON.parse(localStorage.getItem("loginData"))
+    };
   },
 
   methods: {
